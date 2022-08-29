@@ -1,5 +1,5 @@
 <template>
-  <div class="code-wrap">{{ code }}{{ code }}</div>
+  <div class="code-wrap text-grey-darken-0">{{ code }}{{ code }}</div>
 </template>
 
 <script setup>
@@ -94,5 +94,6 @@ const code = ref(`
   width: 100%;
   height: 90vh;
   overflow: hidden;
+  opacity: 0.6;
 }
 </style>

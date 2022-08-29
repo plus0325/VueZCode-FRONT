@@ -7,7 +7,7 @@
           <TitlePart ><template v-slot:text >Goods</template></TitlePart>
         </v-col>
         <v-row>
-            <v-col v-for="product in products" :key="product._id" cols="12" md="6" lg="3">
+            <v-col v-for="product in products" :key="product._id" cols="6" md="6" lg="3">
               <ProductCard :product="product"></ProductCard>
             </v-col>
             <v-col  v-if="products.length === 0" cols="12">

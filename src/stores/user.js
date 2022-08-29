@@ -137,7 +137,7 @@ export const useUserStore = defineStore({
     // 更新購物車
     async updateCart (data) {
       try {
-        await apiAuth.patch('users/cart', data)
+        await apiAuth.patch('/users/cart', data)
         // 把data資料傳給後端(請求內容位置的路徑) router.patch('/cart', content('application/json'), auth.jwt, editCart)
         return '資料回傳成功'
         //  成功後，往外傳資料出去修改(就是給前台 views/front/CartView.vue)
@@ -194,7 +194,7 @@ export const useUserStore = defineStore({
       try {
         // await apiAuth.delete(`/users/${id}`)
         await apiAuth.delete('/users/' + id)
-        await Swal.fire({
+        Swal.fire({
           // icon: 'success',
           title: 'SUCCESS //成功',
           text: '刪除成功'

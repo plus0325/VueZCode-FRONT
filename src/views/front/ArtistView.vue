@@ -115,6 +115,7 @@ const data = reactive({
     }
   ]
 })
+
 const code = ref(`
           <v-window-item>
             <v-card flat color="transparent">

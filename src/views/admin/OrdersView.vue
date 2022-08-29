@@ -19,7 +19,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(order, idx) in orders" :key="order._id" >
+            <tr v-for="(order, idx) in sliceOrders" :key="order._id" >
               <td>{{ order._id }}</td>
               <td v-if="order.user === null">帳號已經刪除</td>
               <td v-else>{{ order.user.email }}</td>
@@ -41,6 +41,9 @@
               <td v-if="order.tone === 2">
                 <v-icon size="x-large" start color="green">mdi-comment-check-outline</v-icon>訂單已完成
               </td>
+              <td v-if="order.tone === 3">
+                <v-icon size="x-large" start color="blue">mdi-comment-remove-outline</v-icon>訂單已取消
+              </td>
               <td>
                 <v-btn @click="openDialog(order._id, idx)" variant="outlined" plain size="x-small" rounded="lg">編輯</v-btn>
               </td>
@@ -55,13 +58,17 @@
       </v-col>
     </v-row>
 
+    <!-- 分頁條 -->
+    <v-pagination v-model='currentPage' :length="Math.ceil(orders.length / pageShowOrders)" rounded="circle" class="ma-5"></v-pagination>
+
     <v-dialog v-model="form.dialog">
-      <v-card rounded="xl">
+      <v-card rounded="xl" width="300">
         <v-form v-model="form.valid" @submit.prevent="submitForm" >
 
           <!-- 對話表單卡片標題 -->
           <v-card-title>
-            <div class="text-h5">編輯訂單</div>
+            <div class="text-h5 font-weight-bold text-center py-5">編輯訂單</div>
+            <v-divider></v-divider>
           </v-card-title>
 
           <!-- 對話表單卡片內容樣式 -->
@@ -73,9 +80,12 @@
                 </v-col> -->
                 <v-col cols="12">
                   <!-- <v-select label="訂單狀態" v-model="form.category" :items="categorise" :rules="[rules.required]"></v-select> -->
-                  <v-radio label="訂單確認中" color="red" v-model="form.tone" value="0"></v-radio>
-                  <v-radio label="商品出貨中" color="yellow" v-model="form.tone" value="1"></v-radio>
-                  <v-radio label="訂單已完成" color="green" v-model="form.tone" value="2"></v-radio>
+                  <v-radio-group v-model="form.tone" mandatory>
+                    <v-radio label="訂單確認中" color="red"  value="0" ></v-radio>
+                    <v-radio label="商品出貨中" color="yellow" value="1"></v-radio>
+                    <v-radio label="訂單已完成" color="green" value="2"></v-radio>
+                    <v-radio label="訂單已取消" color="blue" value="3"></v-radio>
+                  </v-radio-group>
                 </v-col>
               </v-row>
             </v-container>
@@ -83,12 +93,12 @@
 
           <!-- 對話表單卡片的確定取消鈕 -->
           <v-card-actions>
-            <v-container class="d-flex">
-              <v-btn @click="delUser(idx)" color="error">訂單刪除</v-btn>
-              <v-spacer/>
+            <v-container class="d-flex mt-n16">
+              <!-- <v-btn @click="delUser(idx)" color="error">訂單刪除</v-btn> -->
               <!-- disadled 停用 -->
-              <v-btn @click="form.dialog = false" color="error" variant="tonal" :disadled="form.submitting">取消</v-btn>
-              <v-btn type="submit" variant="tonal" :loading="form.submitting">確認送出</v-btn>
+              <v-btn @click="form.dialog = false" color="red" variant="tonal" :disadled="form.submitting">取消</v-btn>
+                            <v-spacer/>
+              <v-btn type="submit" variant="tonal" :loading="form.submitting" color="green">確認送出</v-btn>
             </v-container>
           </v-card-actions>
 
@@ -99,7 +109,7 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { apiAuth } from '@/plugins/axios'
 import Swal from 'sweetalert2'
 import { isEmail } from 'validator'
@@ -125,7 +135,7 @@ const form = reactive({
   // 為了判斷位置是否有資料來比對
   idx: -1
 })
-const categorise = reactive(['訂單確認中', '出貨中', '訂單完成'])
+// const categorise = reactive(['訂單確認中', '出貨中', '訂單完成'])
 const rules = reactive({
   required (v) {
     return !!v || '必填'
@@ -134,6 +144,18 @@ const rules = reactive({
     return isEmail(v) || '信箱格式錯誤'
     // import { isEmail } from 'validator' (驗證套件)
   }
+})
+
+// ------------------------------------
+// 控制數量分頁
+// ------------------------------------
+// 每頁顯示的會員人數
+const pageShowOrders = 5
+// 目前顯示的頁數的位置
+const currentPage = ref(1)
+// 計算顯示會員人數限制內容 (放在頁面上跑迴圈是必須要篩選計算過的)
+const sliceOrders = computed(() => {
+  return orders.slice((currentPage.value * pageShowOrders) - pageShowOrders, (currentPage.value * pageShowOrders))
 })
 
 // ----------------------------------------------------------
@@ -170,7 +192,7 @@ const submitForm = async () => {
     // 註冊使用者的時候就是新增使用者的資料到後台，可以看他請求的方式
     // ProductView.vue的商品格式用的FormData原因是因為有圖片其他格式
     const { data } = await apiAuth.patch('/orders/' + form._id, form)
-    orders[form.idx] = data.result
+    orders[form.idx].tone = data.result.tone
 
     Swal.fire({
       title: 'success //成功',
@@ -211,3 +233,6 @@ const init = async () => {
 }
 init()
 </script>
+<style scoped>
+/* * {outline: 1px solid red;} */
+</style>

@@ -6,7 +6,7 @@
       </v-col>
       <v-divider></v-divider>
       <v-col cols="12">
-        <v-table fixed-header>
+        <v-table fixed-header height="300">
           <thead>
             <tr>
               <th>會員編號</th>
@@ -17,7 +17,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(user, idx) in users" :key="user._id">
+            <tr v-for="(user, idx) in sliceUsers" :key="user._id">
               <td> {{ user._id }} </td>
               <td> {{ user.email }} </td>
               <td> {{ user.account }}</td>
@@ -36,14 +36,18 @@
       </v-col>
     </v-row>
 
-      <!-- 點編輯會跳出對話表單 [persistent是固定在中間位置]-->
-    <v-dialog v-model="form.dialog">
+    <!-- 分頁條 -->
+    <v-pagination v-model='currentPage' :length="Math.ceil(users.length / pageShowUesrs)" rounded="circle" class="ma-5"></v-pagination>
+
+    <!-- 點編輯會跳出對話表單 [persistent是固定在中間位置] -->
+    <v-dialog v-model="form.dialog" persistent>
       <v-card rounded="xl">
         <v-form v-model="form.valid" @submit.prevent="submitForm" >
 
           <!-- 對話表單卡片標題 -->
           <v-card-title>
-            <div class="text-h5">編輯會員資料</div>
+            <div class="text-h5 font-weight-bold text-center py-5">編輯會員資料</div>
+            <v-divider></v-divider>
           </v-card-title>
 
           <!-- 對話表單卡片內容樣式 -->
@@ -51,13 +55,14 @@
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field label="信箱" v-model="form.email" :rules="[rules.required, rules.email]" type="text"></v-text-field>
+                  <v-text-field label="信箱" v-model="form.email" :rules="[rules.required, rules.email]" type="text"  hide-details="auto" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field label="帳號" v-model="form.account" :rules="[rules.required]" type="text"></v-text-field>
+                  <v-text-field label="帳號" v-model="form.account" :rules="[rules.required]" type="text"  hide-details="auto" variant="outlined"></v-text-field>
                 </v-col>
-                <v-col cols="12">
-                  <v-checkbox label="(打勾)管理員" v-model="form.role"></v-checkbox>
+                <v-col cols="12" class="d-flex justify-space-between align-center">
+                  <v-checkbox label="(打勾)管理員" v-model="form.role" hide-details></v-checkbox>
+                  <v-btn @click="delUser(idx)" variant="outlined" size="x-small" style="opacity:0.4;">刪除此會員</v-btn>
                 </v-col>
               </v-row>
             </v-container>
@@ -66,11 +71,11 @@
           <!-- 對話表單卡片的確定取消鈕 -->
           <v-card-actions>
             <v-container class="d-flex">
-              <v-btn @click="delUser(idx)" color="error">刪除</v-btn>
-              <v-spacer/>
+
               <!-- disadled 停用 -->
-              <v-btn @click="form.dialog = false" color="error" variant="tonal" :disadled="form.submitting">取消</v-btn>
-              <v-btn type="submit" variant="tonal" :loading="form.submitting">確認送出</v-btn>
+              <v-btn @click="form.dialog = false" color="red" variant="tonal" :disadled="form.submitting">取消</v-btn>
+                            <v-spacer/>
+              <v-btn type="submit" variant="tonal" :loading="form.submitting" color="green">確認送出</v-btn>
             </v-container>
           </v-card-actions>
 
@@ -80,9 +85,9 @@
 
   </div>
 </template>
-
+d
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import Swal from 'sweetalert2'
 import { isEmail } from 'validator'
 // 引入攔截器 補上使用者的token，帶入到 headers 當中
@@ -104,6 +109,18 @@ const { avatar, account } = storeToRefs(user)
 // 控制彈跳對話框(預設是關閉)
 // ------------------------------------
 // const dialog = ref(false)
+
+// ------------------------------------
+// 控制數量分頁
+// ------------------------------------
+// 每頁顯示的會員人數
+const pageShowUesrs = 5
+// 目前顯示的頁數的位置
+const currentPage = ref(1)
+// 計算顯示會員人數限制內容 (放在頁面上跑迴圈是必須要篩選計算過的)
+const sliceUsers = computed(() => {
+  return users.slice((currentPage.value * pageShowUesrs) - pageShowUesrs, (currentPage.value * pageShowUesrs))
+})
 
 // ------------------------------------
 // 設計編輯使用者資料的表單預設相關格式(含控制表單) (可對應後端的models/users.js)
@@ -192,11 +209,13 @@ const submitForm = async () => {
 // ------------------------------------
 // delUser 刪除使用者
 // ------------------------------------
+// 對stores/users.js裡面的delUser做使用
 const delUser = async (idx) => {
   const result = await user.delUser(form._id)
   console.log(result)
   users.splice(idx, 1)
 }
+
 // ------------------------------------
 // updateUser 更新使用者
 // ------------------------------------
@@ -224,3 +243,11 @@ const init = async () => {
 init()
 
 </script>
+<style scoped>
+/* *{ outline: 1px solid red; } */
+
+/* 讓sweetalert最上顯 */
+.v-overlay {
+   z-index: 50 !important;
+}
+</style>

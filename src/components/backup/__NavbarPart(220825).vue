@@ -1,104 +1,96 @@
 <template>
-  <v-app-bar color="white" height="120" class="px-md-16 px-5" density="comfortable" id="navbar">
-    <v-row class="align-center justify-lg-space-between">
+  <v-app-bar color="white" height="120" class="px-md-16" density="comfortable" id="navbar">
+    <v-row class="align-center ma-0 justify-space-between justify-md-center justify-lg-space-between">
+      <v-img :src="isDefaultImage ? logo : logobug" max-width="120" cover style="cursor: pointer" @click="$router.push('/')" class="d-flex order-2 order-md-1 mr-2 my-md-5"></v-img>
 
-      <!-- ============== logo ==============  -->
-      <v-col class="d-flex order-1 order-md-1 justify-md-center"><v-img :src="isDefaultImage ? logo : logobug" max-width="130" cover style="cursor: pointer" @click="$router.push('/')"></v-img></v-col>
-
-      <!-- ============== MD以上會出現的菜單 ==============  -->
-      <v-col cols="10" class="d-none d-md-flex order-md-2">
-        <v-row class="justify-md-end align-center flex-lg-nowrap menu-md">
-          <v-col><v-btn to="/info" variant="outlined" prepend-icon="mdi-information-outline" class="v-btn-add">Info</v-btn></v-col>
-          <v-col><v-btn to="/news" variant="outlined" prepend-icon="mdi-new-box" class="v-btn-add">News</v-btn></v-col>
-          <v-col><v-btn to="/artist" variant="outlined" prepend-icon="mdi-account-star" class="v-btn-add">Artist</v-btn></v-col>
-          <v-col><v-btn to="/timetable" variant="outlined" prepend-icon="mdi-account-star" class="v-btn-add">TimeTable</v-btn></v-col>
-          <v-col><v-btn to="/goods" prepend-icon="mdi-gift" variant="outlined" class="v-btn-add">Goods</v-btn></v-col>
-          <v-col v-if="!isLogin"><v-btn to="/login" prepend-icon="mdi-login" variant="outlined" class="v-btn-add">login</v-btn></v-col>
-          <v-col>
+      <v-col class="d-none d-md-flex order-md-2">
+        <v-row class="justify-md-end flex-md-nowrap">
+            <v-btn to="/info" variant="outlined" prepend-icon="mdi-information-outline" class="v-btn-add">Info</v-btn>
+            <v-btn to="/news" variant="outlined" prepend-icon="mdi-new-box" class="v-btn-add">News</v-btn>
+            <v-btn to="/artist" variant="outlined" prepend-icon="mdi-account-star" class="v-btn-add">Artist</v-btn>
+            <v-btn to="/goods" variant="outlined" prepend-icon="mdi-account-star" class="v-btn-add">TimeTable</v-btn>
+            <v-btn to="/goods" prepend-icon="mdi-gift" variant="outlined" class="v-btn-add">Goods</v-btn>
+            <!-- <v-btn v-if="!isLogin" to="/register" prepend-icon="mdi-plus" variant="outlined" class="v-btn">Join</v-btn> -->
+            <v-btn v-if="!isLogin" to="/login" prepend-icon="mdi-login" variant="outlined" class="v-btn-add">login</v-btn>
             <v-btn to="/cart" prepend-icon="mdi-cart" variant="outlined" class="v-btn-add">
               <v-badge color="error" dot offset-x="50"  offset-y="-3" v-if="cart > 0">Cart</v-badge>
               <span v-else>Cart</span>
             </v-btn>
-          </v-col>
-          <v-col v-if="isLogin"><v-btn  to="/orders" prepend-icon="mdi-format-list-bulleted" variant="outlined"  class="v-btn-add">Orders</v-btn></v-col>
-          <v-col v-if="isLogin && isAdmin" class="flex-grow"><v-btn to="/admin" icon="mdi-account" size="x-small" style="font-size: 16px !important;"></v-btn></v-col>
-          <v-col v-if="isLogin" class="flex-grow"><v-btn  icon="mdi-logout" size="x-small" @click='logout' style="font-size: 16px !important;"></v-btn></v-col>
-
-            <!-- <v-btn v-if="!isLogin" to="/register" prepend-icon="mdi-plus" variant="outlined" class="v-btn">Join</v-btn> -->
+            <v-btn v-if="isLogin" to="/orders" prepend-icon="mdi-format-list-bulleted" variant="outlined"  class="v-btn-add">Orders</v-btn>
+            <v-btn v-if="isLogin && isAdmin" to="/admin" icon="mdi-account" size="x-small" class="ml-3"></v-btn>
+            <v-btn v-if="isLogin" icon="mdi-logout" size="x-small" @click='logout' class="ml-3"></v-btn>
         </v-row>
       </v-col>
 
-      <!-- ============== RWD手機購物車部分 ==============  -->
-      <v-col class="d-md-none d-flex order-1 cart-wrap flex-grow pa-0 mr-1" id="btn-cart">
+      <div class="d-md-none d-flex order-1 cart-wrap">
           <v-btn to="/cart" icon="mdi-cart" variant="text" class="cart"></v-btn>
           <v-badge color="error" dot floating  offset-x="2"  offset-y="4"  v-if="cart > 0" class="cart-dot"></v-badge>
-      </v-col>
+      </div>
 
-      <!-- ============== RWD手機登入部分 ==============  -->
-      <v-col class="d-md-none d-flex order-1 flex-grow pa-0 mr-1" id="btn-login">
-        <v-btn to="/login" icon="mdi-login" variant="text" class="login"></v-btn>
-      </v-col>
+      <div class="d-md-none d-flex flex-end order-3" id="menu-btn">
+    <!-- <v-btn
+      :icon= "showMenu ? 'mdi-close' : 'mdi-menu'"
+      height="100%"
+      width="100%"
+      id="mdi-icon"
+      @click="showMenu = true"
+    ></v-btn> -->
 
-      <!-- ============== RWD手機菜單部分 ==============  -->
-      <v-col class="d-md-none d-flex flex-end order-3 flex-grow" id="btn-menu">
         <v-icon
           :icon= "showMenu ? 'mdi-close' : 'mdi-menu'"
           class="mdi-icon"
           @click="showMenu = true"
         ></v-icon>
+    <!-- <p class="iconName" v-if="!showMenu">menu</p>
+    <p class="d-flex justify-center iconName" v-else>close</p> -->
+    <!-- <v-card>
+      <v-card-actions>
+        <v-icon @click="dialog = true" size="80">mdi-menu</v-icon>
+      </v-card-actions>
+    </v-card> -->
 
-        <v-menu transition="scroll-y-reverse-transition" v-model="showMenu" id="v-menu">
-          <v-list flat lines="10"  rounded="xl">
+    <!-- <v-icon @click="dialog = true" size="80">mdi-menu</v-icon> -->
 
-            <v-list-item to="/info">
-              <v-list-item-title>
-                <span class="menu-title">Info</span><span class="text-body-2">// 資訊一覽</span>
-              </v-list-item-title>
-            </v-list-item>
+        <v-menu transition="scroll-y-reverse-transition" v-model="showMenu" id="mdi-menu">
+          <v-list flat lines="10">
 
             <v-list-item to="/news">
               <v-list-item-title>
-                <span class="menu-title">News</span><span class="text-body-2">// 最新消息</span>
+                <span class="menu-title">News</span><span>// 最新消息</span>
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-item to="/info">
+              <v-list-item-title>
+                <span class="menu-title">Info</span><span>// 資訊</span>
               </v-list-item-title>
             </v-list-item>
 
             <v-list-item to="/artist">
               <v-list-item-title>
-                <span class="menu-title">Artist</span><span class="text-body-2">// 表演陣容</span>
-              </v-list-item-title>
-            </v-list-item>
-
-            <v-list-item to="/timetable">
-              <v-list-item-title>
-                <span class="menu-title">TimeTable</span><span class="text-body-2">// 表演時間</span>
+                <span class="menu-title">Artist</span><span>// 表演陣容</span>
               </v-list-item-title>
             </v-list-item>
 
             <v-list-item to="/goods">
               <v-list-item-title>
-                <span class="menu-title">Goods</span><span class="text-body-2">// 周邊商品</span>
+                <span class="menu-title">Goods</span><span>// 周邊商品</span>
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item to="/orders">
-              <v-list-item-title>
-                <span class="menu-title">Orders</span><span class="text-body-2">// 會員訂單</span>
-              </v-list-item-title>
-            </v-list-item>
-
-            <!-- <v-list-item v-if="!isLogin" to="/register">
+            <v-list-item v-if="!isLogin" to="/register">
               <v-list-item-title>
                   <span class="menu-title">Join</span><span>// 註冊</span>
               </v-list-item-title>
-            </v-list-item> -->
+            </v-list-item>
 
             <v-list-item v-if="!isLogin" to="/login">
               <v-list-item-title>
-                <span class="menu-title">Login</span><span class="text-body-2">// 登入</span>
+                <span class="menu-title">Login</span><span>// 登入</span>
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item v-if="isLogin" @click='logout'>
+            <v-list-item v-if="!isLogin" to="/login">
               <v-list-item-title>
                 <span class="menu-title">Logout</span><span>// 登出</span>
               </v-list-item-title>
@@ -106,19 +98,70 @@
 
             <v-list-item v-if="isLogin && isAdmin" to="/admin">
               <v-list-item-title>
-                <span class="menu-title">Admin</span><span class="text-body-2">管理區</span>
+                <span class="menu-title">Admin</span><span>管理區</span>
               </v-list-item-title>
             </v-list-item>
 
-            <img :src="logobug" class="logobug" />
-
           </v-list>
         </v-menu>
-      </v-col>
+    <!-- <v-dialog
+      v-model="data.dialog"
+      height="500px"
+      width="70%"
+      location="strat"
+      class="d-flex justify-md-end"
+    >
+    </v-dialog> -->
+    <!-- <v-bottom-sheet v-model="sheet">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="purple"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Open In
+        </v-btn>
+      </template>
+      <v-list>
+        <v-subheader>push</v-subheader>
+      </v-list>
+    </v-bottom-sheet> -->
+      </div>
 
     </v-row>
+    <!-- <div class="d-md-none">
+      <v-menu location="start">
+        <template v-slot:activator="{ props }">
+          <v-btn
+            icon="mdi-menu"
+            size="x-large"
+            v-bind="props"
+            style="
+              font-size:60px;
+            "
+            class="d-flex px-10"
+          >
+          </v-btn>
+        </template>
+        <div class="d-flex flex-column" style="background-color:brown;">
+          <v-btn to="/goods" prepend-icon="mdi-gift">Info //資訊</v-btn>
+          <v-btn to="/goods" prepend-icon="mdi-gift">Goods //週邊商品</v-btn>
+          <v-btn v-if="!isLogin" to="/register" prepend-icon="mdi-plus">Join //註冊</v-btn>
+          <v-btn v-if="!isLogin" to="/login" prepend-icon="mdi-login">login //登入</v-btn>
+          <v-btn to="/cart" prepend-icon="mdi-cart">
+            <v-badge color="error" dot floating v-if="cart > 0">Cart //購物車</v-badge>
+            <span v-else>Cart //購物車</span>
+          </v-btn>
+          <v-btn v-if="isLogin" to="/orders" prepend-icon="mdi-format-list-bulleted">Orders //訂單</v-btn>
+          <v-btn v-if="isLogin && isAdmin" to="/admin" prepend-icon="mdi-account">管理區</v-btn>
+          <v-btn v-if="isLogin" prepend-icon="mdi-logout" @click='logout'>登出</v-btn>
+        </div>
+      </v-menu>
+    </div> -->
 
   </v-app-bar>
+  <!-- <CarouselPart id="carouselHero"/> -->
 </template>
 
 <script setup>
@@ -142,11 +185,11 @@ const isDefaultImage = ref(true)
 // handleScroll 滾動時變化圖片
 // ------------------------------------
 const handleScroll = () => {
-  // console.log(window.scrollY)
+  console.log(window.scrollY)
   if (window.scrollY > 120) {
     return (isDefaultImage.value = false)
   }
-  if (window.scrollY <= 63) {
+  if (window.scrollY <= 50) {
     if (!isDefaultImage.value) {
       return (isDefaultImage.value = true)
     }
@@ -177,7 +220,7 @@ window.document.addEventListener('scroll', function () {
 
   if (currentPos > lastPos) {
     // 讓nav bar消失
-    navberChange.style.height = '63px'
+    navberChange.style.height = '68px'
     // bg.style.backgroundColor = 'transparent !important!'
     // bg.style.cssText = 'background-color: rgba(255,255,255,0.5) !important;'
     // mdiIcon.style.cssText = 'font-size: 2rem !important;'
@@ -218,10 +261,9 @@ window.document.addEventListener('scroll', function () {
 
 <style scoped>
 /* * { outline: 1px solid red;} */
-
 /* ============== 電腦版上的ｍenu___v-btn樣式 ============== */
 .v-btn-add {
-  min-width: 130px;
+  min-width: 5%;
   font-size: 16px;
   letter-spacing: 0.5px;
   margin-left: 2%;
@@ -230,22 +272,10 @@ window.document.addEventListener('scroll', function () {
   transition: .2s all;
 }
 .v-btn-add:nth-child(1) {margin-left: -0.5%;}
-.menu-md > .v-col {
-  padding-top: 2px !important;
-  padding-bottom: 2px !important;
-  padding-left: 5px!important;
-  padding-right: 5px !important;
-}
 
-@media (min-width: 960px) and (max-width: 1280px) {
-  .v-btn-add {
-    font-size: 15px;
-    letter-spacing: 0.5px;
-    height: 25px;
-    line-height: 25px;
-    border: 1.5px solid black;
-    transition: .2s all;
-  }
+@media screen and (min-width: 1330px) {
+  /* .v-btn-add {margin-left: 2.5%;   min-width: 150px;} */
+
 }
 .v-btn-add:hover {
   background-color: black;
@@ -263,7 +293,6 @@ window.document.addEventListener('scroll', function () {
   background-color:yellow;
   transition: 1s all;
 } */
-
 /*
 @media screen and (min-width: 767px) {
 } */
@@ -293,39 +322,55 @@ window.document.addEventListener('scroll', function () {
 }
 
 /* ============== 購物車ICON部分 ============== */
-.cart, .login {
+.cart {
   transform: scale(1.2);
 }
+/* .cart-wrap {
+  position: relative;
+} */
+/* .cart-dot {
+  position: absolute;
+  right: 5px;
+  top: 3px;
+} */
 
 /* 讓菜單滿版 */
-#mdi-menu.v-menu {
+/* #mdi-menu.v-menu {
   min-width: 100%!important;
   width: 100% !important;
-}
+} */
 
 /* ============== 控制menu彈出最高層(底下滑動不會跑掉) ==============  */
 .v-overlay--absolute {
   position: fixed !important;
 }
 
-/* ============== 調整彈出菜單的滿版(位置) ============== */
+.v-overlay-container {
+  min-width: 100% !important;
+  opacity: 0.5;
+  display: block !important;
+  min-width: 100%;
+}
+
+/* ============== 控制menu彈出的位置 ============== */
+.v-overlay {
+  bottom: 0 !important;
+  padding: 0 !important;
+}
+
+/* ============== 調整彈出菜單的滿版 ============== */
 .v-list {
-  min-width: 100vw;
+  min-width: 85vw;
   min-height: 100vh;
   padding: 5%;
-  top: 64px;
-  position: relative;
-
   /* top: calc(20vh - 56px); */
-  /* opacity: 0.9; */
-
+  top: 64px;
 }
 .v-list-item {
   min-width: 100%;
-  height: 15%;
-  margin-bottom: 10px;
+  height: 10%;
+  margin-bottom: 5%;
 }
-
 /* ============== 調整彈出菜單的英文字跟中文字的排列============== */
 .v-list-item-title {
   width: 100%;
@@ -336,6 +381,7 @@ window.document.addEventListener('scroll', function () {
   align-items: center;
   line-height: normal!important;
   position: relative;
+
 }
 /* ============== 調整彈出菜單的背景底色 ============== */
 /* .v-menu .v-overlay__content > .v-card, .v-menu .v-overlay__content > .v-sheet, .v-menu .v-overlay__content > .v-list {
@@ -357,31 +403,14 @@ window.document.addEventListener('scroll', function () {
 
 /* ============== 調整彈出菜單的英文字大小 ============== */
 .menu-title{
-  font-size: 40px;
-  font-weight: 900;
-  letter-spacing: -2px;
+  font-size: 30px;
 }
-
-.flex-grow { flex-grow: 0; }
-
-@media screen and (max-width: 375px) {
-  .menu-title{
-    font-size: 30px;
-    font-weight: 900;
-  }
-  .v-list-item {
-    margin-bottom: 2%;
-  }
-
-}
-/* #v-menu {
-  position: relative;
-} */
-.logobug {
+/* p.iconName {
   position: absolute;
-  bottom: 230px;
-  right: 100px;
-  max-width: 50px;
-}
+  top:50px;
+  left: 0;
+  right: 0;
+  bottom:0;
+} */
 
 </style>

@@ -1,16 +1,21 @@
 <template>
-  <v-container class="py-16 px-md-16">
-    <v-col cols="12" class="px-5 px-md-0 py-10">
-      <h1 class="text-h4 text-md-h2">&lt;- Info -&gt;</h1>
+  <v-container class="py-16 px-md-16" id="InfoArea">
+    <v-col cols="12" md="12" class="px-md-0 text-center d-none d-md-block">
+      <h1 class="font-weight-black text-h1">Info</h1>
+      <div class="text-body-1 font-weight-bold">&lt;-- 資訊項目 --&gt;</div>
+    </v-col>
+    <v-col cols="12" md="12" class="px-0 text-center d-block d-md-none">
+      <h1 class="font-weight-black">&lt;-- Info --&gt;</h1>
       <div class="text-body-1 font-weight-bold">資訊項目</div>
     </v-col>
+
     <v-row>
-      <v-col>
-        <v-card class="mx-auto" max-width="500" rounded="xl" variant="text">
+      <v-col class="mb-10">
+        <v-card class="mx-auto" max-width="500" rounded="xl" variant="outlined">
           <v-img
             src="https://images.unsplash.com/photo-1622817245531-a07976979cf5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1682&q=80"
-            height="200px"
             cover
+            class="vImg"
           ></v-img>
 
           <v-card-title>
@@ -98,17 +103,17 @@
         </v-card>
       </v-col>
 
-      <v-col>
-        <v-card class="mx-auto" max-width="500" rounded="xl" variant="text">
+      <v-col class="mb-10">
+        <v-card class="mx-auto" max-width="500" rounded="xl" variant="outlined">
 
           <v-img
             src="https://images.unsplash.com/photo-1478860409698-8707f313ee8b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
-            height="200px"
             cover
+            class="vImg"
           ></v-img>
 
           <v-card-title>
-            <v-btn block density="default" height="50" color="green" class="text-h4 font-weight-bold my-5">MAP</v-btn>
+            <v-btn block density="default" height="50" color="green" class="text-h4 font-weight-bold my-5">AreaMAP</v-btn>
           </v-card-title>
 
           <v-card-subtitle class="text-center pb-5">
@@ -171,13 +176,13 @@
         </v-card>
       </v-col>
 
-      <v-col>
-        <v-card class="mx-auto" max-width="500" rounded="xl" variant="text">
+      <v-col class="mb-10">
+        <v-card class="mx-auto" max-width="500" rounded="xl" variant="outlined">
 
           <v-img
             src="https://images.unsplash.com/photo-1470053118841-6113c089d41f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
-            height="200px"
             cover
+            class="vImg"
           ></v-img>
 
           <v-card-title>
@@ -209,35 +214,27 @@
               <v-divider></v-divider>
 
               <v-card-text>
+                <div class="content pa-2">
+                  <div class="item my-5">
+                    <h3><v-icon class="pr-5 py-6">mdi-code-tags</v-icon>搭乘高鐵</h3>
+                    <p class="text-body-2">高鐵桃園站下車，轉乘桃園捷運。</p>
+                  </div>
 
-                <v-card theme="light">
-                  <V-img :src="mapImg"></V-img>
-                </v-card>
+                  <div class="item my-5">
+                    <h3><v-icon class="pr-5 py-6">mdi-code-tags</v-icon>搭乘臺鐵</h3>
+                    <p class="text-body-2">臺北站下車，轉乘臺北捷運、桃園捷運、公車。</p>
+                  </div>
 
-                <v-table density="compact" class="my-5">
-                  <thead>
-                    <tr>
-                      <th class="text-left">
-                        前往舞台注意事項
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>● A舞台在最高點</td>
-                    </tr>
-                    <tr>
-                      <td>● B舞台在中間點</td>
-                    </tr>
-                    <tr>
-                      <td>● C舞台在左邊點</td>
-                    </tr>
-                    <tr>
-                      <td>● 垃圾請勿亂丟維持環境</td>
-                    </tr>
-                  </tbody>
-                </v-table>
+                  <div class="item my-5">
+                    <h3><v-icon class="pr-5 py-6">mdi-code-tags</v-icon>搭乘客運</h3>
+                    <p class="text-body-2">臺北轉運站下車（臺北火車站旁），轉乘臺北捷運、桃園捷運、公車。</p>
+                  </div>
 
+                  <div class="item my-5">
+                    <h3><v-icon class="pr-5 py-6">mdi-code-tags</v-icon>自行開車</h3>
+                    <p class="text-body-2">車位有限，請盡量利用大眾交通工具</p>
+                  </div>
+                </div>
               </v-card-text>
             </div>
           </v-expand-transition>
@@ -298,4 +295,12 @@ init()
   border-radius: 30px;
 }
 
+.vImg {
+  height: 250px;
+}
+ @media screen and (max-width: 767px)  {
+   .vImg {
+      height: 80px;
+  }
+ }
 </style>

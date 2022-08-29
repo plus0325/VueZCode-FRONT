@@ -1,7 +1,12 @@
 <template>
-  <v-container class="py-16 px-md-16">
-    <v-col cols="12" class="px-5 px-md-0 py-10">
-      <h1 class="text-h4 text-md-h2">&lt;- TimeTable -&gt;</h1>
+  <v-container class="py-16 px-md-16" id="TimeTableArea">
+
+    <v-col cols="12" md="12" class="px-md-0 text-center d-none d-md-block">
+      <h1 class="font-weight-black text-h1">TimeTable</h1>
+      <div class="text-body-1 font-weight-bold">&lt;-- 演出時間 --&gt;</div>
+    </v-col>
+    <v-col cols="12" md="12" class="px-0 text-center d-block d-md-none">
+      <h1 class="font-weight-black">&lt;-TimeTable-&gt;</h1>
       <div class="text-body-1 font-weight-bold">演出時間</div>
     </v-col>
 
@@ -9,7 +14,7 @@
         <!-- <v-card-title class="text-center justify-center py-6">
           <h1 class="font-weight-bold text-h2 text-basil">TIME</h1>
         </v-card-title> -->
-        <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="200px" cover ></v-img>
+        <v-img src="https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" height="200px" cover ></v-img>
         <v-card-title variant="outlined">
           Top western road trips
         </v-card-title>

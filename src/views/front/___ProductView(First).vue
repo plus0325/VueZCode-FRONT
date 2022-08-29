@@ -1,51 +1,28 @@
 <template>
   <div id="product">
-    <v-container class="pa-0 pa-md-1 py-6">
-      <v-card color="white" class="mt-md-5 ma-md-10" rounded="xl">
+    <v-container>
+      <v-row>
         <v-col cols="12">
-          <v-breadcrumbs class="text-body-2">
-            <v-breadcrumbs-item to="/">TOP</v-breadcrumbs-item>
-            <v-breadcrumbs-divider>/</v-breadcrumbs-divider>
-            <v-breadcrumbs-item to="/goods">GOODS</v-breadcrumbs-item>
-            <v-breadcrumbs-divider>/</v-breadcrumbs-divider>
-            <v-breadcrumbs-item disabled>{{ product.name }}</v-breadcrumbs-item>
-          </v-breadcrumbs>
+          <h1 class="text-center">{{ product.name }}</h1>
         </v-col>
-        <v-row class="pa-3 ma-md-10">
-          <v-col cols="12" md="6" class="text-center">
-            <v-img :src="product.image" height="500"></v-img>
-
-          </v-col>
-
-          <v-col cols="12" md="6" >
-            <v-col cols="12">
-              <h1 class="text-h6 font-weight-black" style="word-wrap:break-word;">{{ product.name }}</h1>
-              <p class="py-5 text-h3 font-weight-black">${{ product.price }}</p>
-
-            </v-col>
-
-            <v-col cols="12">
-              <v-form v-model='valid' @submit.prevent="submit">
-                <v-row>
-                  <v-divider color="black" class="mb-2"></v-divider>
-                  <v-col cols="12" md="3"><v-text-field label="數量" type="number" min="0" v-model="product.quantity" :rules="quantityRule" variant="outlined" hide-details="auto"></v-text-field></v-col>
-                  <v-col cols="12" md="9"><v-btn type="submit" color="yellow" block density="default" size="x-large" prepend-icon="mdi-cart">加入購物車</v-btn></v-col>
-                  <v-divider color="black" class="mt-2"></v-divider>
-                </v-row>
-              </v-form>
-            </v-col>
-            <v-col cols="12">
-              <p style="white-space:pre-wrap;" class="text-body-2 text-grey-darken-1"> {{ product.description }}</p>
-            </v-col>
-          </v-col>
-
-        </v-row>
-      </v-card>
-
+        <v-divider></v-divider>
+        <v-col cols="12" class="text-center">
+          <v-img :src="product.image"></v-img>
+          <p>${{ product.price }}</p>
+        </v-col>
+        <v-col cols="12">
+          <p style="white-space:pre;"> {{ product.description }}</p>
+        </v-col>
+        <v-col cols="12">
+          <v-form v-model='valid' @submit.prevent="submit">
+            <v-text-field label="數量" type="number" min="0" v-model="product.quantity" :rules="quantityRule"></v-text-field>
+            <v-btn type="submit">加入購物車</v-btn>
+          </v-form>
+        </v-col>
+      </v-row>
       <v-overlay :model-value="!product.sell" class="align-center justify-center" color="#036358">
         <h1 class="text-black">已下架</h1>
       </v-overlay>
-
     </v-container>
   </div>
 </template>
@@ -70,7 +47,6 @@ const product = reactive({
   description: '',
   quantity: 0
 })
-
 // 單一商品頁面前台會顯示的數量預設0
 // const quantity = ref('')
 // 用這個方式的話 上方要改 import { reactive, ref } from 'vue'

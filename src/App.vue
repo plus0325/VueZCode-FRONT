@@ -15,7 +15,7 @@ const user = useUserStore()
 user.getUser()
 
 </script>
-<style >
+<style>
   /* @import "./assets/font/font.css"; */
 
 /* .v-timeline-item__body {

@@ -1,10 +1,15 @@
 <template>
   <v-container fluid id="GoodsArea">
     <v-container class="mt-md-10 pt-md-16">
-      <v-col cols="12" class="px-5 px-md-0">
-        <h1 class="text-h4 text-md-h2 text-black">&lt;- Goods -&gt;</h1>
-        <div class="text-body-1 font-weight-bold text-black">周邊商品</div>
-      </v-col>
+
+          <v-col cols="12" md="12" class="px-md-0 text-center d-none d-md-block text-black">
+      <h1 class="font-weight-black text-h1">Goods</h1>
+      <div class="text-body-1 font-weight-bold">&lt;-- 周邊商品 --&gt;</div>
+    </v-col>
+    <v-col cols="12" md="12" class="px-0 text-center d-block d-md-none text-black">
+      <h1 class="font-weight-black">&lt;-- Goods --&gt;</h1>
+      <div class="text-body-1 font-weight-bold">周邊商品</div>
+    </v-col>
     </v-container>
 
     <v-divider color="black" class="mx-5 mx-md-16 mt-md-2" thickness="1"></v-divider>
@@ -40,7 +45,7 @@
               <v-row class="flex-column pa-5 px-md-16 ma-0 h-100 w-100 justify-md-center">
 
                 <v-col class="product-title order-md-1" md="6">
-                    <h2 class="text-h4 font-weight-black pb-1">{{ product.name }}</h2>
+                    <h2 class="text-h4 font-weight-black pb-1" style="white-space:pre-wrap;">{{ product.name }}</h2>
                     <p class="text-body-2">{{ product.description }}</p>
                 </v-col>
 
@@ -68,7 +73,7 @@
               icon="mdi-arrow-left"
               @click="prev"
             ></v-btn>
-            <v-col />
+            <v-col class="d-none d-sm-block" />
             <v-btn
               variant="plain"
               icon="mdi-arrow-right"

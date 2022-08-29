@@ -96,10 +96,43 @@ const router = createRouter({
         },
         {
           path: 'artist',
-          name: '',
+          name: 'artist',
           component: () => import('@/views/front/ArtistView.vue'),
           meta: {
             title: 'VueZCode | 出演陣容',
+            // 登入才能看
+            login: false,
+            admin: false
+          }
+        },
+        {
+          path: 'news',
+          name: 'news',
+          component: () => import('@/views/front/NewsView.vue'),
+          meta: {
+            title: 'VueZCode | 消息一覽',
+            // 登入才能看
+            login: false,
+            admin: false
+          }
+        },
+        {
+          path: 'info',
+          name: 'info',
+          component: () => import('@/views/front/InfoView.vue'),
+          meta: {
+            title: 'VueZCode | 資訊一覽',
+            // 登入才能看
+            login: false,
+            admin: false
+          }
+        },
+        {
+          path: 'timetable',
+          name: 'timetable',
+          component: () => import('@/views/front/TimeTableView.vue'),
+          meta: {
+            title: 'VueZCode | 時間一覽',
             // 登入才能看
             login: false,
             admin: false

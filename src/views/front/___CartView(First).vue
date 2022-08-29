@@ -1,60 +1,57 @@
 <template>
 <div id="cart">
-  <CodeWrapSet />
   <v-container>
+
     <v-col>
       <TitlePart ><template v-slot:text >Cart</template></TitlePart>
     </v-col>
 
-    <v-card color="white" class="pa-10" rounded="xl">
-
-      <v-alert
-        v-if="cart.length === 0"
-        border="top"
-        prominent
-        variant="outlined"
-        type="warning"
-        color="black"
-        class="text-center text-subtitle-2"
-      >
-      // 沒有商品 NoProduct
-      </v-alert>
-
-      <v-row v-for="(item, idx) in cart" :key="item._id" :class="{'bg-red':!item.product.sell}" class="align-center mb-10">
-        <v-col cols="12" md="6">
-          <v-row class="align-center">
-            <v-col class="pa-0" cols="4">
-              <v-img :src="item.product.image" max-width="100" height="70"></v-img>
-            </v-col>
-
-            <v-col cols="8">
-              <h3 class="pb-2 text-subtitle-2">{{ item.product.name }}</h3>
-              <div class="d-flex h-100 align-center text-grey-darken-2">
-                <p class="pr-5 text-subtitle-2">NT$ {{ item.product.price }}</p>
-                <v-btn @click="updateCart(idx, 0)" icon="mdi-delete-forever" variant="text" size="x-small" id="mdi-delete-forever"></v-btn>
-              </div>
-            </v-col>
-          </v-row>
-        </v-col>
-
-        <v-col cols="12" md="6" class="pa-3">
-          <v-row class="align-end align-md-center justify-space-between pb-4">
-            <div class="d-flex align-center quantity-btn justify-space-between">
-              <span><v-btn variant="text" icon="mdi-minus" @click="updateCart(idx, item.quantity-1)"></v-btn></span>
-              <span>{{ item.quantity }}</span>
-              <span><v-btn variant="text" icon="mdi-plus" @click="updateCart(idx, item.quantity+1)"></v-btn></span>
-            </div>
-            <div class="text-subtitle-2 font-weight-bold">小計 NT$ {{ item.product.price * item.quantity }}</div>
-          </v-row>
-        </v-col>
-        <v-divider thickness="1px" color="black"></v-divider>
-      </v-row>
-
-      <v-col  cols="12" class="text-center mt-8">
-        <h4>總金額 : NT$ {{ totalPrice }}</h4>
-        <v-btn class="w-100 mt-16 mx-auto" @click="user.checkout" :disabled="!canCheckout" color="yellow">結帳</v-btn>
+    <v-row>
+      <v-col cols="12">
+        <v-table>
+          <thead>
+            <tr>
+              <th class="text-center">圖片</th>
+              <th class="text-center">商品名稱</th>
+              <th class="text-center">單價</th>
+              <th class="text-center">數量</th>
+              <th class="text-center">小計</th>
+              <th class="text-center">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, idx) in cart" :key="item._id" :class="{'bg-red':!item.product.sell}">
+              <td>
+                <v-img :src="item.product.image" max-width="100" max-height="100"></v-img>
+              </td>
+              <td class="text-center">{{ item.product.name }}</td>
+              <td class="text-center">{{ item.product.price }}</td>
+              <td>
+                <v-row class="justify-center align-center">
+                  <v-btn icon="mdi-minus" size="small" variant="outlined" class="mx-2" @click="updateCart(idx, item.quantity-1)"></v-btn>
+                  {{ item.quantity }}
+                  <v-btn icon="mdi-plus" size="small" variant="outlined" class="mx-2"  @click="updateCart(idx, item.quantity+1)"></v-btn>
+                </v-row>
+              </td>
+              <td  class="text-center">NT$ {{ item.product.price * item.quantity }}</td>
+              <td>
+                <v-btn class="mx-auto" @click="updateCart(idx, 0)">刪除</v-btn>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" v-if="cart.length === 0">
+                <h3 class="text-center">NoProduct //沒有商品</h3>
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
       </v-col>
-    </v-card>
+      <v-divider></v-divider>
+      <v-col  cols="12" class="text-center">
+        <p>總金額 : NT$ {{ totalPrice }}</p>
+        <v-btn class="w-100 mt-16 mx-auto" @click="user.checkout" :disabled="!canCheckout">結帳</v-btn>
+      </v-col>
+    </v-row>
 
   </v-container>
 
@@ -72,7 +69,6 @@ import { reactive, computed } from 'vue'
 import Swal from 'sweetalert2'
 import { apiAuth } from '@/plugins/axios.js'
 import { useUserStore } from '@/stores/user.js'
-import CodeWrapSet from '@/components/CodeWrapSet.vue'
 
 // import { useUserStore } from '@/stores/user.js'
 const user = useUserStore()
@@ -147,23 +143,3 @@ const init = async () => {
 }
 init()
 </script>
-
-<style scoped>
-/* * { outline: 1px solid rgba(0,0,0, 0.1); } */
-::v-deep #mdi-delete-forever .v-icon{
-  --v-icon-size-multiplier: 0.7 !important;
-}
-.quantity-btn {
-  border: 1px solid black;
-}
-.quantity-btn span:nth-child(1),
-.quantity-btn span:nth-child(3) {
-  background-color: black;
-  color: white;
-}
-.quantity-btn span:nth-child(2) {
-  /* margin: auto; */
-  width: 50px;
-  text-align: center;
-}
-</style>

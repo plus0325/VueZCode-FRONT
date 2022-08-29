@@ -1,52 +1,56 @@
 <template>
-<v-container fluid>
-  <v-row class="align-center">
+  <v-container fluid class="py-16 px-md-16" id="ArtistArea" >
     <v-container>
-    <v-col cols="12" md="12" class="px-5 px-md-0">
-      <h1 class="text-h4 text-md-h2">&lt;- LineUp -&gt;</h1>
-      <div class="text-body-1 font-weight-bold">表演來賓</div>
-    </v-col>
+      <v-col cols="12" md="12" class="px-md-0 text-center d-none d-md-block">
+        <h1 class="font-weight-black text-h1">Artist</h1>
+        <div class="text-body-1 font-weight-bold">&lt;-- 表演來賓 --&gt;</div>
+      </v-col>
+      <v-col cols="12" md="12" class="px-0 text-center d-block d-md-none">
+        <h1 class="font-weight-black">&lt;- Artist -&gt;</h1>
+        <div class="text-body-1 font-weight-bold">表演來賓</div>
+      </v-col>
     </v-container>
 
-    <v-col cols="12" md="12">
+    <v-row class="align-center">
+      <v-col cols="12" md="12">
 
-      <v-sheet class="mx-auto" elevation="8">
-        <v-slide-group selected-class="bg-success" active-class="success">
-          <v-slide-group-item v-for="item in data.items" :key="item" v-slot="{ isSelected, toggle, selectedClass }" >
-            <v-card class="artist" :class="['ma-2 ma-md-3', selectedClass]"  @click="toggle">
-              <v-img :src="item.img" cover gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"/>
-              <span class="mapbtn">
-                <v-btn rounded="pill" :color="item.btnColor" density="compact">{{ item.time }}</v-btn>
-              </span>
-              <span class="site">
-                <v-btn variant="outlined" size="small" icon>{{ item.site }}</v-btn>
-              </span>
-              <span class="artist-name text-h4 text-md-h2 font-weight-bold" elevation="24">{{ item.name }}</span>
-              <span class="codeline text-body-2 d-none d-md-block" elevation="24">
-                <!-- &lt; components &gt; -->
-                &lt;link href="https://vuezcode.com.tw/components &gt;
-              </span>
-              <span class="codeline text-body-2 d-md-none" elevation="24">
-                &lt; components &gt;
-              </span>
-              <div class="d-flex fill-height align-center justify-center">
-                <v-scale-transition>
-                  <v-icon
-                    v-if="isSelected"
-                    color="white"
-                    size="48"
-                    icon="mdi-close-circle-outline"
-                  ></v-icon>
-                </v-scale-transition>
-              </div>
-            </v-card>
-          </v-slide-group-item>
-        </v-slide-group>
-      </v-sheet>
+        <v-sheet class="mx-auto" elevation="8">
+          <v-slide-group selected-class="bg-success" active-class="success">
+            <v-slide-group-item v-for="item in data.items" :key="item" v-slot="{ isSelected, toggle, selectedClass }" >
+              <v-card class="artist" :class="['ma-2 ma-md-3', selectedClass]"  @click="toggle">
+                <v-img :src="item.img" cover gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"/>
+                <span class="mapbtn">
+                  <v-btn rounded="pill" :color="item.btnColor" density="compact">{{ item.time }}</v-btn>
+                </span>
+                <span class="site">
+                  <v-btn variant="outlined" size="small" icon>{{ item.site }}</v-btn>
+                </span>
+                <span class="artist-name text-h4 text-md-h2 font-weight-bold" elevation="24">{{ item.name }}</span>
+                <span class="codeline text-body-2 d-none d-md-block" elevation="24">
+                  <!-- &lt; components &gt; -->
+                  &lt;link href="https://vuezcode.com.tw/components &gt;
+                </span>
+                <span class="codeline text-body-2 d-md-none" elevation="24">
+                  &lt; components &gt;
+                </span>
+                <div class="d-flex fill-height align-center justify-center">
+                  <v-scale-transition>
+                    <v-icon
+                      v-if="isSelected"
+                      color="white"
+                      size="48"
+                      icon="mdi-close-circle-outline"
+                    ></v-icon>
+                  </v-scale-transition>
+                </div>
+              </v-card>
+            </v-slide-group-item>
+          </v-slide-group>
+        </v-sheet>
 
-    </v-col>
-  </v-row>
-</v-container>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
@@ -121,6 +125,9 @@ const data = reactive({
 </script>
 
 <style scoped>
+/* #ArtistArea {
+  background-color: #41B883;
+} */
 .v-sheet .v-slide-group__next {
   position: absolute !important;
   top:100px;

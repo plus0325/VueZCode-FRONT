@@ -90,7 +90,7 @@ d
 <script setup>
 import { reactive, ref, computed } from 'vue'
 import Swal from 'sweetalert2'
-import { isEmail } from 'validator'
+import validator from 'validator'
 // 引入攔截器 補上使用者的token，帶入到 headers 當中
 import { apiAuth } from '@/plugins/axios'
 import { useUserStore } from '@/stores/user.js'
@@ -157,7 +157,7 @@ const rules = reactive({
     return !!v || '必填'
   },
   email (v) {
-    return isEmail(v) || '信箱格式錯誤'
+    return validator.isEmail(v) || '信箱格式錯誤'
     // import { isEmail } from 'validator' (驗證套件)
   }
 })

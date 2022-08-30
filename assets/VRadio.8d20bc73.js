@@ -1,0 +1,1 @@
+import{x as n,L as o,y as r,d as s}from"./index.70c021f0.js";import{V as d}from"./VSelectionControl.96df9ced.js";const f=n({name:"VRadio",props:{falseIcon:{type:o,default:"$radioOff"},trueIcon:{type:o,default:"$radioOn"}},setup(e,a){let{slots:t}=a;return r(()=>s(d,{class:"v-radio",trueIcon:e.trueIcon,falseIcon:e.falseIcon,type:"radio"},t)),{}}});export{f as V};

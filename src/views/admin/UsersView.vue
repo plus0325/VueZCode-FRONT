@@ -25,7 +25,8 @@
                 <!-- <v-switch inset hide-details v-model="user.role" color="red"></v-switch> -->
               <v-radio olor="success" v-model="user.role" disabled></v-radio></td>
               <td>
-                <v-btn @click="openDialog(user._id, idx)" variant="outlined" plain size="x-small" rounded="lg">編輯</v-btn>
+                <v-btn v-if='currentPage === 1' @click="openDialog(user._id, idx)" variant="outlined" plain size="x-small" rounded="lg">編輯</v-btn>
+                <v-btn v-else @click="openDialog(user._id, idx + (currentPage - 1) * pageShowUesrs)" variant="outlined" plain size="x-small" rounded="lg">編輯</v-btn>
               </td>
             </tr>
             <tr v-if=" users.length === 0 " >

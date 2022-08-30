@@ -45,7 +45,8 @@
                 <v-icon size="x-large" start color="blue">mdi-comment-remove-outline</v-icon>訂單已取消
               </td>
               <td>
-                <v-btn @click="openDialog(order._id, idx)" variant="outlined" plain size="x-small" rounded="lg">編輯</v-btn>
+                <v-btn v-if='currentPage === 1' @click="openDialog(order._id, idx)" variant="outlined" plain size="x-small" rounded="lg">編輯</v-btn>
+                <v-btn v-else @click="openDialog(user._id, idx + (currentPage - 1) * pageShowOrders)" variant="outlined" plain size="x-small" rounded="lg">編輯</v-btn>
               </td>
             </tr>
             <tr v-if="orders.length === 0">

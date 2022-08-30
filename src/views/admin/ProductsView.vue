@@ -24,7 +24,8 @@
             </td>
             <td class="text-left"> {{ product.name }}</td>
             <td width="5%">
-              <v-btn @click="openDialog(product._id, idx)" variant="outlined"  size="x-small" rounded="lg">編輯</v-btn>
+              <v-btn v-if='currentPage === 1' @click="openDialog(product._id, idx)" variant="outlined"  size="x-small" rounded="lg">編輯</v-btn>
+              <v-btn v-else @click="openDialog(user._id, idx + (currentPage - 1) * pageShowProducts)" variant="outlined" plain size="x-small" rounded="lg">編輯</v-btn>
             </td>
           </tr>
           <tr v-if=" products.length === 0 " >

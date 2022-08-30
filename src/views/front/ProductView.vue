@@ -13,8 +13,7 @@
         </v-col>
         <v-row class="pa-3 ma-md-10">
           <v-col cols="12" md="6" class="text-center">
-            <v-img :src="product.image" height="500"></v-img>
-
+            <v-img :src="product.image" max-height="500"></v-img>
           </v-col>
 
           <v-col cols="12" md="6" >
@@ -133,3 +132,7 @@ const init = async () => {
 }
 init()
 </script>
+
+<style scoped>
+  /* * { outline: 1px solid red; } */
+</style>

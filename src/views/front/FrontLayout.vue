@@ -1,10 +1,9 @@
 <template>
-  <!-- <v-app-bar class="pa-0">
-    <MarqueePart :data-speed="2" :data-pausable="false" :data-reverse="null" style="color:yellow;font-size:60px;">
-      <template v-slot:text >Better Call <span style="color:red;">Saul</span></template>
+  <v-app-bar class="pa-0">
+    <MarqueePart :data-speed="2" :data-pausable="false" :data-reverse="null">
+      <template v-slot:text >Hello, World!</template>
     </MarqueePart>
-  </v-app-bar> -->
-  <!-- <MarqueePart :data-speed="2" :data-pausable="false" :data-reverse="null" text="您好" /> -->
+  </v-app-bar>
 
   <NavbarPart />
 

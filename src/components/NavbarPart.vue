@@ -47,7 +47,7 @@
           @click="showMenu = true"
         ></v-icon>
 
-        <v-menu transition="scroll-y-reverse-transition" v-model="showMenu" id="v-menu">
+        <v-menu transition="scroll-y-reverse-transition" v-model="showMenu" id="v-menu" class="overflow-y-visible">
           <v-list flat lines="10"  rounded="xl">
 
             <v-list-item to="/info">

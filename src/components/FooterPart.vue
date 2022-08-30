@@ -90,6 +90,8 @@ h1  {
   width: 100%;
   height: 50px;
   word-break: break-all;
+  color: rgba(255,255,255,0.3);
+
 }
 .postscript {
   font-size: 12px;

@@ -24,7 +24,7 @@ const router = createRouter({
           name: 'home',
           component: FrontHomeView,
           meta: {
-            title: 'VuezCode',
+            title: 'VueZCode',
             // 不需要登入也可以看（如果要登陸的話true)
             login: false,
             // 不需要是原理員也可以看
